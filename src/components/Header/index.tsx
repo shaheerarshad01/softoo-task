@@ -4,14 +4,14 @@ import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import colors from '../../utils/colors';
 import fonts from '../../utils/fonts';
-import metrics from '../../utils/mertrics';
 
 const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: metrics.images.medium,
+    padding: 40,
+    backgroundColor:colors.primaryColor
   },
   text: {
     color: colors.white,
@@ -21,9 +21,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const Header = ({title = ''}: any) => {
+const Header = ({title = '', testID}: any) => {
   return (
-    <View style={styles.header}>
+    <View testID={testID} style={styles.header}>
       <Text style={styles.text}>{title}</Text>
     </View>
   );

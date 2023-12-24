@@ -1,6 +1,5 @@
 import {StyleSheet} from 'react-native';
 import colors from '../../utils/colors';
-import metrics from '../../utils/mertrics';
 
 export default StyleSheet.create({
   container: {
@@ -13,7 +12,7 @@ export default StyleSheet.create({
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     paddingVertical: 5,
-    paddingHorizontal: metrics.screenWidth * 0.02,
+    paddingHorizontal:10,
   },
   cardContainer: {
     backgroundColor: '#fff',

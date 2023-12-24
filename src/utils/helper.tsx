@@ -1,6 +1,4 @@
-import {discountTypes} from './constants';
-
-export const mergedArr = (inputArray: Array<any>) =>
+export const MergedArr = (inputArray: Array<any>) =>
   inputArray?.reduce((acc, item) => {
     if (!acc[item.internalId]) {
       acc[item.internalId] = {...item, totalCount: 1};
@@ -14,7 +12,7 @@ export const mergedArr = (inputArray: Array<any>) =>
     return acc;
   }, {});
 
-export const splitNumberString = (value: string | number) => {
+export const SplitNumberString = (value: string | number) => {
   return (value as string).split(',');
 };
 

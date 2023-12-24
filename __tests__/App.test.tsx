@@ -1,17 +1,24 @@
-/**
- * @format
- */
-
-import 'react-native';
+import '@testing-library/jest-native';
 import React from 'react';
+import { render, waitFor } from '@testing-library/react-native';
 import App from '../src/App';
 
-// Note: import explicitly to use the types shipped with jest.
-import {it} from '@jest/globals';
+// Mocking react-redux Provider
+jest.mock('react-redux', () => ({
+  ...jest.requireActual('react-redux'),
+  useSelector: jest.fn(),
+  useDispatch: jest.fn(),
+}));
 
-// Note: test renderer must be required after react-native.
-import renderer from 'react-test-renderer';
+describe('App', () => {
+  it('renders MainNavigation inside Provider and ErrorBoundary', async () => {
+    // Render the App component
+    const { getByTestId } = render(<App />);
 
-it('renders correctly', () => {
-  renderer.create(<App />);
+    // Wait for any asynchronous operations to complete
+    await waitFor(() => {});
+
+    // Check if MainNavigation is rendered inside Provider and ErrorBoundary
+    expect(getByTestId('main-navigation')).toBeTruthy();
+  });
 });

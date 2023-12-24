@@ -2,8 +2,6 @@ import React from 'react';
 import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 
 import colors from '../../utils/colors';
-import metrics from '../../utils/mertrics';
-import {Routes} from '../../navigation/Routes';
 
 const ProductCard = ({navigation, item, handleAddToBasket}: any) => {
   return (
@@ -44,7 +42,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 10,
+    padding: 20,
   },
   badgeContainer: {
     backgroundColor: '#FF6B6B',
@@ -74,9 +72,7 @@ const styles = StyleSheet.create({
   },
   productImage: {
     width: '100%',
-    height: metrics.screenWidth * 0.24,
-    borderBottomColor: colors.lightBackground,
-    borderBottomWidth: 1,
+    height: 150,
   },
   productName: {
     fontSize: 10,

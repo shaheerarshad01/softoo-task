@@ -1,14 +1,11 @@
 {
   "extends": "@react-native/typescript-config/tsconfig.json",
   "compilerOptions": {
+    // ... other options
+    "types": ["jest", "@testing-library/jest-native"],
+    "target": "esnext",
+    "module": "commonjs",
     "jsx": "react",
-    "jsx": "react",
-    "baseUrl": "./",
-    "paths": {
-      "*": ["src/*"]
-    }
-    // Other compiler options
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "declarations.d.ts"] // Add declarations.d.ts
-  // Other settings
+  // ... other configurations
 }

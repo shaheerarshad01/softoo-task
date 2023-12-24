@@ -3,7 +3,6 @@ import {View, Text, Button, FlatList, StatusBar} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {removeFromBasket, updateQuantity} from './basket.slice';
 import styles from './basket.styles';
-import Header from '../../components/Header';
 import colors from '../../utils/colors';
 
 const BasketItemCard = ({item, handleUpdate, handleRemove}: any) => (
@@ -44,7 +43,6 @@ function Basket({navigation}: any) {
         backgroundColor={colors.primaryColor}
         barStyle="light-content"
       />
-      <Header categoryHeader title="Basket" navigation={navigation} />
       <View style={styles.mainContainer}>
         <FlatList
           data={basket}

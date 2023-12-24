@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StatusBar,
   View,
@@ -8,17 +8,38 @@ import {
   Text,
 } from 'react-native';
 import styles from './products.styles';
-import {ProductTypes} from './types';
-import {useFetchProductQuery} from './products.api';
-import {setProduct} from './products.slice';
+import { ProductTypes } from './types';
+import { useFetchProductQuery } from './products.api';
+import { setProduct } from './products.slice';
 import colors from '../../utils/colors';
-import Header from '../../components/Header';
 import ProductCard from '../../components/ProductCard';
-import {useAppDispatch} from '../../hooks/redux';
-import {addToBasket} from '../../screens/Basket/basket.slice';
-import {Routes} from '../../navigation/Routes';
+import { useAppDispatch } from '../../hooks/redux';
+import { addToBasket } from '../../screens/Basket/basket.slice';
+import { Routes } from '../../navigation/Routes';
 
-const Product = ({products = [], navigation}: ProductTypes | any) => {
+const renderCardContainer = (pair: any, handleAddToBasket: any) => {
+  return (
+    <View style={styles.cardMain}>
+      {pair.map((item: any, index: React.Key | null | undefined) => (
+        <View key={index} style={styles.cardContainer}>
+          <ProductCard item={item} handleAddToBasket={handleAddToBasket} />
+        </View>
+      ))}
+    </View>
+  );
+};
+
+const Product = ({ products = [], navigation }: ProductTypes | any) => {
+  const [pairs, setPairs] = useState<any[]>([]);
+
+  useEffect(() => {
+    const updatedPairs = [];
+    for (let i = 0; i < products.length; i += 2) {
+      updatedPairs.push(products.slice(i, i + 2));
+    }
+    setPairs(updatedPairs);
+  }, [products]);
+
   const dispatch = useAppDispatch();
 
   const handleAddToBasket = (product: any) => {
@@ -26,80 +47,50 @@ const Product = ({products = [], navigation}: ProductTypes | any) => {
     navigation.navigate(Routes.Basket);
   };
 
-  const renderProductCards = () => {
-    const pairs = [];
-    for (let i = 0; i < products.length; i += 2) {
-      pairs.push(products.slice(i, i + 2));
-    }
-
-    return (
+  return (
+    <ScrollView
+      style={styles.mainContainer}
+      showsVerticalScrollIndicator={false}>
       <FlatList
         data={pairs}
-        keyExtractor={(pair, index) => index.toString()}
-        renderItem={({item: pair}) => (
-          <View style={styles.cardMain}>
-            {pair.map((item: any, index: React.Key | null | undefined) => (
-              <View key={index} style={styles.cardContainer}>
-                <ProductCard
-                  item={item}
-                  handleAddToBasket={handleAddToBasket}
-                />
-              </View>
-            ))}
-          </View>
-        )}
+        keyExtractor={(_, index) => index.toString()}
+        renderItem={({ item: pair }) => renderCardContainer(pair, handleAddToBasket)}
       />
-    );
-  };
-
-  return (
-    <View style={styles.mainContainer}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {renderProductCards()}
-      </ScrollView>
-    </View>
+    </ScrollView>
   );
 };
 
-function Products({navigation}: any) {
+function Products({ navigation }: any) {
   const dispatch = useAppDispatch();
-  const {data = [], isLoading, isSuccess} = useFetchProductQuery();
+  const { data = [], isLoading, isSuccess } = useFetchProductQuery();
 
   useEffect(() => {
     if (data.length) {
       dispatch(setProduct(data));
     }
-  }, [dispatch]);
+  }, [dispatch, data]);
 
-  if (isLoading) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color={colors.primaryColor} />
-      </View>
-    );
-  }
+  const renderLoading = () => (
+    <View style={styles.loadingContainer}>
+      <ActivityIndicator size="large" color={colors.primaryColor} />
+    </View>
+  );
 
-  if (!isSuccess) {
-    return (
-      <View style={styles.errorContainer}>
-        <Text>Error loading products</Text>
-      </View>
-    );
-  }
+  const renderError = () => (
+    <View style={styles.errorContainer}>
+      <Text>Error loading products</Text>
+    </View>
+  );
 
   return (
-    <>
-      <View style={styles.container}>
-        <StatusBar
-          backgroundColor={colors.primaryColor}
-          barStyle="light-content"
-        />
-        <Header categoryHeader title="Products" navigation={navigation} />
-        <View style={styles.mainContainer}>
-          <Product products={data ?? []} navigation={navigation} />
-        </View>
+    <View style={styles.container}>
+      <StatusBar backgroundColor={colors.primaryColor} barStyle="light-content" />
+      <View style={styles.mainContainer}>
+        {isLoading && renderLoading()}
+        {!isSuccess && renderError()}
+        {isSuccess && <Product products={data ?? []} navigation={navigation} />}
       </View>
-    </>
+    </View>
   );
 }
 

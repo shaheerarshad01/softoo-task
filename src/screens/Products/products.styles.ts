@@ -1,6 +1,5 @@
 import {StyleSheet} from 'react-native';
 import colors from '../../utils/colors';
-import metrics from '../../utils/mertrics';
 
 export default StyleSheet.create({
   container: {
@@ -13,11 +12,11 @@ export default StyleSheet.create({
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     paddingVertical: 5,
-    paddingHorizontal: metrics.screenWidth * 0.02,
+    paddingHorizontal: 10,
   },
   submitButton: {
-    height: metrics.screenWidth * 0.11,
-    width: metrics.screenWidth * 0.9,
+    height: 20,
+    width: '90%',
     borderRadius: 20,
     backgroundColor: colors.primaryColor,
     justifyContent: 'center',
@@ -34,7 +33,6 @@ export default StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     paddingTop: 10,
-    paddingLeft: 10,
   },
   cardContainer: {
     flex: 1,
